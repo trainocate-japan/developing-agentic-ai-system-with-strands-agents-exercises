@@ -1,8 +1,8 @@
 """
 Agentic AI 開発実践 - Strands Agents 版
-演習⑥: Guardrails設定と評価結果の確認　ベースコード
+演習6: Guardrails設定と評価結果の確認　ベースコード
 
-このファイルには、演習⑤の完成形があらかじめ組み込まれています。
+このファイルには、演習5の完成形があらかじめ組み込まれています。
 TODO 1, TODO 2 の番号が振られた場所に、演習ガイドの手順に沿って
 コードを追加・書き換えてください（番号は追加する順番を表します）。
 
@@ -31,7 +31,7 @@ model = BedrockModel(
 )
 
 
-# --- FAQデータ（演習①で追加済み） ----------------------------------------------
+# --- FAQデータ（演習1で追加済み） ----------------------------------------------
 FAQ_DATA = {
     "VPN": "VPNに接続できない場合は、まず社内ポータルから最新のVPNクライアントを"
            "再インストールし、二要素認証アプリの時刻同期を確認してください。",
@@ -52,7 +52,7 @@ FAQ_DATA = {
 }
 
 
-# --- チケットデータ（演習②で追加済み） ------------------------------------------
+# --- チケットデータ（演習2で追加済み） ------------------------------------------
 TICKET_DATA = {
     "TCK-1001": {"requester": "山田太郎", "category": "アカウント", "status": "対応中",
                  "summary": "VPN接続不可の問い合わせ", "updated_at": "2026-09-18 10:30"},
@@ -69,7 +69,7 @@ TICKET_DATA = {
 }
 
 
-# --- 稼働状況データ（演習③で追加済み） ------------------------------------------
+# --- 稼働状況データ（演習3で追加済み） ------------------------------------------
 SYSTEM_STATUS = {
     "VPN": {"status": "正常", "last_checked": "2026-09-20 09:00"},
     "社内ポータル": {"status": "正常", "last_checked": "2026-09-20 09:00"},
@@ -158,13 +158,13 @@ kb_client = MCPClient(
 )
 
 
-# --- 構造化出力の型（演習①で追加済み） ------------------------------------------
+# --- 構造化出力の型（演習1で追加済み） ------------------------------------------
 class SupportAnswer(BaseModel):
     answer: str = Field(description="問い合わせへの回答本文")
     needs_escalation: bool = Field(description="情報システム部へのエスカレーションが必要か")
 
 
-# --- エージェント（演習③で追加済み） --------------------------------------------
+# --- エージェント（演習3で追加済み） --------------------------------------------
 support_agent = Agent(
     model=model,
     tools=[search_faq, get_ticket_status, get_password_reset_guide],
@@ -210,14 +210,14 @@ builder.set_entry_point("receptionist")
 graph = builder.build()
 
 
-# --- 対応履歴の記録(Hook)（演習④で追加済み） -----------------------------------
+# --- 対応履歴の記録(Hook)（演習4で追加済み） -----------------------------------
 def record_interaction_history(event: AfterToolCallEvent) -> None:
     """ツール呼び出しの結果を、対応履歴として記録する。"""
     print(f"[履歴記録] ツール: {event.tool_use['name']} / 結果: {event.result}")
     # 実際の運用では、ここでTICKET_DATAへの追記やログ基盤への送信を行う
 
 
-# --- セッション管理・Hook・HITL・MCP対応のsupport_agent（演習⑤で追加済み） --------
+# --- セッション管理・Hook・HITL・MCP対応のsupport_agent（演習5で追加済み） --------
 def create_support_agent(ticket_id: str) -> Agent:
     """チケットIDをセッションIDとする、永続化・Hook・HITL・MCP対応のsupport_agentを生成する。"""
     session_manager = SnapshotSessionManager(

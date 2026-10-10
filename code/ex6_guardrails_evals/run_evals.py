@@ -1,12 +1,12 @@
 """
 Agentic AI 開発実践 - Strands Agents 版
-演習⑥: ルーティング精度の評価スクリプト（配布アセット）
+演習6: ルーティング精度の評価スクリプト（配布アセット）
 
 このファイルは配布用の完成済みアセットです。演習でこのファイルの実装を
 変更する必要はありません。agent.py・kb_mcp_server.pyと同じディレクトリに置き、
 `python run_evals.py` で実行してください。
 
-演習③で組み立てたGraph(receptionist → support / infra)が、
+演習3で組み立てたGraph(receptionist → support / infra)が、
 モジュール5のサンプル問い合わせ集(SAMPLE_INQUIRIES)に対して、
 期待どおりの担当に振り分けられているかを、Strands Evals SDKで評価します。
 """

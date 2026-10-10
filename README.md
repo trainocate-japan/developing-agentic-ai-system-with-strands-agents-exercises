@@ -9,19 +9,19 @@
 ```
 code/                           演習の配布用ベースコード・アセット
   ex1_minimal_agent/
-    agent.py                    演習①: 最小構成エージェント
+    agent.py                    演習1: 最小構成エージェント
   ex2_multi_tool/
-    agent.py                    演習②: 複数ツールを持つ単一エージェント
+    agent.py                    演習2: 複数ツールを持つ単一エージェント
   ex3_graph/
-    agent.py                    演習③: Graphによる一次切り分け
+    agent.py                    演習3: Graphによる一次切り分け
   ex4_memory_hitl/
-    agent.py                    演習④: 永続化・Hooks・HITL
+    agent.py                    演習4: 永続化・Hooks・HITL
   ex5_mcp/
-    agent.py                    演習⑤: MCPサーバーへの接続
+    agent.py                    演習5: MCPサーバーへの接続
     kb_mcp_server.py            配布アセット: 社内ナレッジベースMCPサーバー
   ex6_guardrails_evals/
-    agent.py                    演習⑥: Guardrails設定と評価結果の確認
-    kb_mcp_server.py            配布アセット(演習⑤と同じ)
+    agent.py                    演習6: Guardrails設定と評価結果の確認
+    kb_mcp_server.py            配布アセット(演習5と同じ)
     run_evals.py                配布アセット: ルーティング精度の評価スクリプト
 
 docs/                            演習ガイド(VuePressサイトのソース)

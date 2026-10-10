@@ -1,11 +1,10 @@
-# 演習④: 永続化・Hooks・HITL
+# 演習4: 永続化・Hooks・HITL
 
-**対応モジュール**: 第6章　メモリ・可観測性とHuman-in-the-Loop
 **所要時間の目安**: 35分
 
 ## この演習でやること
 
-演習③で作成したユーザーサポート担当エージェント（`support_agent`）に、次の3つを追加します。
+演習3で作成したユーザーサポート担当エージェント（`support_agent`）に、次の3つを追加します。
 
 1. `SnapshotSessionManager`によるセッション永続化（チケット番号をセッションIDとする）
 2. `AfterToolCallEvent`に対するHookで、ツール呼び出しの対応履歴を記録する
@@ -13,7 +12,7 @@
 
 ベースコードファイル: `code/ex4_memory_hitl/agent.py`
 
-このファイルには、演習③の完成形（`receptionist`・`support_agent`・`infra_agent`によるGraph構成）がすでに組み込まれています。`TODO 1`、`TODO 2`、…と番号が振られた場所に、以下の手順のコードを追加しながら完成させてください（番号はファイル上の位置ではなく、追加する順番を表しています）。
+このファイルには、演習3の完成形（`receptionist`・`support_agent`・`infra_agent`によるGraph構成）がすでに組み込まれています。`TODO 1`、`TODO 2`、…と番号が振られた場所に、以下の手順のコードを追加しながら完成させてください（番号はファイル上の位置ではなく、追加する順番を表しています）。
 
 ## 動作確認チェックリスト
 
@@ -411,4 +410,4 @@ def record_interaction_history(event: AfterToolCallEvent) -> None:
 
 ## 次の演習へ
 
-演習⑤では、これまでエージェントのコードに直接書いていたFAQデータを、MCP(Model Context Protocol)サーバーという外部のナレッジベースから取得する形に拡張します。演習⑤のベースコード（`code/ex5_mcp/agent.py`）には、この演習の完成形がすでに組み込まれています。
+演習5では、これまでエージェントのコードに直接書いていたFAQデータを、MCP(Model Context Protocol)サーバーという外部のナレッジベースから取得する形に拡張します。演習5のベースコード（`code/ex5_mcp/agent.py`）には、この演習の完成形がすでに組み込まれています。

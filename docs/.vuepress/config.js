@@ -14,6 +14,7 @@ export default defineUserConfig({
   bundler: viteBundler(),
 
   theme: defaultTheme({
+    contributors: false,
     navbar: [
       { text: 'ホーム', link: '/' },
       { text: '演習ガイド', link: '/guide/' },
