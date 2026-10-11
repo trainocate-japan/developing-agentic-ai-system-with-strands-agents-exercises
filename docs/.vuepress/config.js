@@ -1,4 +1,5 @@
 import { viteBundler } from '@vuepress/bundler-vite'
+import { markdownExtPlugin } from '@vuepress/plugin-markdown-ext'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 
@@ -12,6 +13,13 @@ export default defineUserConfig({
   base: '/developing-agentic-ai-system-with-strands-agents-exercises/',
 
   bundler: viteBundler(),
+
+  plugins: [
+    markdownExtPlugin({
+      // 動作確認チェックリストの「- [ ]」記法をチェックボックスとして表示する
+      tasklist: true,
+    }),
+  ],
 
   theme: defaultTheme({
     contributors: false,

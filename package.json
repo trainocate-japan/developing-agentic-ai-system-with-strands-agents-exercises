@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@vuepress/bundler-vite": "next",
+    "@vuepress/plugin-markdown-ext": "^2.0.0-rc.137",
     "@vuepress/theme-default": "next",
     "sass-embedded": "^1.105.1",
     "vue": "^3.5.0",
