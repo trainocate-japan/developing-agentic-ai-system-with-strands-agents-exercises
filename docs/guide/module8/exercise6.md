@@ -87,6 +87,9 @@ python run_evals.py
 <summary>模範解答（agent.py 全体）を表示</summary>
 
 ```python title="agent.py（完成形）"
+import asyncio
+import re
+
 from strands import Agent, tool
 from strands.models import BedrockModel
 from pydantic import BaseModel, Field
@@ -287,6 +290,15 @@ def record_interaction_history(event: AfterToolCallEvent) -> None:
     # 実際の運用では、ここでTICKET_DATAへの追記やログ基盤への送信を行う
 
 
+# --- 承認プロンプトの表示（配布済み。変更は不要です） ---------------------------
+# HumanInTheLoopの標準の ask="stdio" は、ツールの入力を json.dumps() でそのまま表示するため、
+# 日本語が「\u7d4c\u8cbb...」のようなエスケープ表記になって読めない。
+# 表示用にエスケープを元の文字へ戻したうえで、y/n を端末から受け取る。
+async def ask_in_japanese(prompt: str, **kwargs) -> str:
+    readable = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), prompt)
+    return await asyncio.to_thread(lambda: input(f"{readable} (y/n): ").strip())
+
+
 def create_support_agent(ticket_id: str) -> Agent:
     """チケットIDをセッションIDとする、永続化・Hook・HITL・MCP対応のsupport_agentを生成する。"""
     session_manager = SnapshotSessionManager(
@@ -296,7 +308,7 @@ def create_support_agent(ticket_id: str) -> Agent:
 
     hitl = HumanInTheLoop(
         allowed_tools=["search_faq", "get_ticket_status", "get_password_reset_guide"],
-        ask="stdio",
+        ask=ask_in_japanese,
     )
 
     new_support_agent = Agent(

@@ -9,6 +9,9 @@ TODO 1, TODO 2, ... の番号が振られた場所に、演習ガイドの手順
 このファイルと同じディレクトリに、配布された kb_mcp_server.py を置いてください。
 """
 
+import asyncio
+import re
+
 from strands import Agent, tool
 from strands.models import BedrockModel
 from pydantic import BaseModel, Field
@@ -212,6 +215,15 @@ def record_interaction_history(event: AfterToolCallEvent) -> None:
     # 実際の運用では、ここでTICKET_DATAへの追記やログ基盤への送信を行う
 
 
+# --- 承認プロンプトの表示（配布済み。変更は不要です） ---------------------------
+# HumanInTheLoopの標準の ask="stdio" は、ツールの入力を json.dumps() でそのまま表示するため、
+# 日本語が「\u7d4c\u8cbb...」のようなエスケープ表記になって読めない。
+# 表示用にエスケープを元の文字へ戻したうえで、y/n を端末から受け取る。
+async def ask_in_japanese(prompt: str, **kwargs) -> str:
+    readable = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), prompt)
+    return await asyncio.to_thread(lambda: input(f"{readable} (y/n): ").strip())
+
+
 # --- セッション管理・Hook・HITL対応のsupport_agent（演習4で追加済み） -------------
 def create_support_agent(ticket_id: str) -> Agent:
     """チケットIDをセッションIDとする、永続化・Hook・HITL対応のsupport_agentを生成する。"""
@@ -222,7 +234,7 @@ def create_support_agent(ticket_id: str) -> Agent:
 
     hitl = HumanInTheLoop(
         allowed_tools=["search_faq", "get_ticket_status", "get_password_reset_guide"],
-        ask="stdio",
+        ask=ask_in_japanese,
     )
 
     # TODO 3: 手順3で、以下の new_support_agent = Agent(...) の定義全体を、MCP対応に書き換えます

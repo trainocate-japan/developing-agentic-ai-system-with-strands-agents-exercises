@@ -93,10 +93,15 @@ python agent.py
 
 1つ目の問い合わせには、ローカルのFAQには含まれない内容のため、MCP経由の`search_kb`が呼ばれて経費精算に関する回答が返るはずです。2つ目の問い合わせには、これまでと同様にローカルの`search_faq`が呼ばれることを確認してください。ツール呼び出しのたびに`[履歴記録]`の行が出力されるので、どちらのツールが実際に呼ばれたかも確認できます。
 
+> **承認を求められます。** `search_kb`と`get_article`は、演習4で設定した`HumanInTheLoop`の`allowed_tools`に含まれていないため、呼び出される前に`Approve "search_kb"?`と承認を求められます。入力内容（`Input:`）を確認して`y`を入力すると、ツールが実行されます。`n`を入力すると、ツールは実行されません。なお、`HumanInTheLoop`の標準の表示では日本語が`\u7d4c...`のようなエスケープ表記になるため、ベースコードには、日本語に戻して表示する`ask_in_japanese`関数を用意してあります（変更は不要です）。
+
 <details>
 <summary>模範解答（agent.py 全体）を表示</summary>
 
 ```python title="agent.py（完成形）"
+import asyncio
+import re
+
 from strands import Agent, tool
 from strands.models import BedrockModel
 from pydantic import BaseModel, Field
@@ -295,6 +300,15 @@ def record_interaction_history(event: AfterToolCallEvent) -> None:
     # 実際の運用では、ここでTICKET_DATAへの追記やログ基盤への送信を行う
 
 
+# --- 承認プロンプトの表示（配布済み。変更は不要です） ---------------------------
+# HumanInTheLoopの標準の ask="stdio" は、ツールの入力を json.dumps() でそのまま表示するため、
+# 日本語が「\u7d4c\u8cbb...」のようなエスケープ表記になって読めない。
+# 表示用にエスケープを元の文字へ戻したうえで、y/n を端末から受け取る。
+async def ask_in_japanese(prompt: str, **kwargs) -> str:
+    readable = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), prompt)
+    return await asyncio.to_thread(lambda: input(f"{readable} (y/n): ").strip())
+
+
 def create_support_agent(ticket_id: str) -> Agent:
     """チケットIDをセッションIDとする、永続化・Hook・HITL・MCP対応のsupport_agentを生成する。"""
     session_manager = SnapshotSessionManager(
@@ -304,7 +318,7 @@ def create_support_agent(ticket_id: str) -> Agent:
 
     hitl = HumanInTheLoop(
         allowed_tools=["search_faq", "get_ticket_status", "get_password_reset_guide"],
-        ask="stdio",
+        ask=ask_in_japanese,
     )
 
     new_support_agent = Agent(
