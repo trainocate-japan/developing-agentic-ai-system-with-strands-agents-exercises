@@ -241,6 +241,20 @@ class SupportAnswer(BaseModel):
     category: str = Field(description="問い合わせのカテゴリ（例: VPN, パスワード, Wi-Fi等）")
 ```
 
+`category`は、フィールドを追加しただけでは画面に表示されません。TODO 5（手順5で書き換えたコード）の末尾に、`print`を1行追加します（下記のうち、追加するのは最後の`print(answer.category)`の1行だけです）。
+
+```python
+# categoryをprintする例（TODO 5の末尾に追記）
+result = agent(
+    "パスワードを忘れてしまいました。どうすればいいですか?",
+    structured_output_model=SupportAnswer,
+)
+answer = result.structured_output
+print(answer.answer)
+print(answer.needs_escalation)
+print(answer.category)  # 追加: categoryを表示する
+```
+
 </details>
 
 ## 次の演習へ
