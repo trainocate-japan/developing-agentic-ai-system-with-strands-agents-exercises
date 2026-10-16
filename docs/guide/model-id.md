@@ -7,7 +7,7 @@
 本コースの演習では、コスト効率の観点からAmazon Nova 2 Liteを使用します。
 
 ```text
-amazon.nova-2-lite-v1:0
+jp.amazon.nova-2-lite-v1:0
 ```
 
 ## 書き換え手順
@@ -27,7 +27,7 @@ model = BedrockModel(
 
 ```python title="agent.py（書き換え後）"
 model = BedrockModel(
-    model_id="amazon.nova-2-lite-v1:0",
+    model_id="jp.amazon.nova-2-lite-v1:0",
     region_name="ap-northeast-1",
     max_tokens=1024,
 )
