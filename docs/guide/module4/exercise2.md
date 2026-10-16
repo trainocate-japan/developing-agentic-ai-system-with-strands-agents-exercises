@@ -250,28 +250,48 @@ if __name__ == "__main__":
 
 ## チャレンジ演習（任意）
 
-`SlidingWindowConversationManager`を追加し、`window_size`を小さい値（例: 2）に設定した場合と、大きい値（例: 20）に設定した場合とで、複数回のやり取りの後にエージェントの応答がどう変わるか比較してみましょう。
+`SlidingWindowConversationManager`を追加し、`window_size`を小さい値（例: 10）に設定した場合と、大きい値（例: 40）に設定した場合とで、複数回のやり取りの後にエージェントの応答がどう変わるか比較してみましょう。
+
+> **`window_size`は、小さくしすぎないでください。** `window_size`は「会話履歴に残すメッセージ数」です。ツールを使う問い合わせ1回あたり、ユーザーの質問・ツール呼び出し・ツールの結果・回答（構造化出力を使うとさらに数件）と、複数のメッセージが履歴に積まれます。1回分のやり取りより小さい値（例: 2）にすると、履歴の先頭が`user`のメッセージではなくなり、`A conversation must start with a user message`という`ValidationException`になることがあります。
 
 <details>
 <summary>チャレンジ演習の模範解答例を表示</summary>
 
-```python
-# ファイル先頭のインポートに追加する例（既存の`from ... import ...`の行の下に追記）
-from strands.agent.conversation_manager import SlidingWindowConversationManager
+まず、ファイル先頭のインポートに、次の1行を追加します（既存の`from ... import ...`の行の下に追記）。
 
-# TODO 3を書き換える例
+```python
+from strands.agent.conversation_manager import SlidingWindowConversationManager
+```
+
+次に、`TODO 3`の`Agent`の定義を、`conversation_manager`付きに書き換えます。
+
+```python
 agent = Agent(
     model=model,
     tools=[search_faq, get_ticket_status, get_password_reset_guide],
-    conversation_manager=SlidingWindowConversationManager(window_size=2),
+    conversation_manager=SlidingWindowConversationManager(window_size=10),
     system_prompt="あなたは社内ITヘルプデスクの担当者です。質問内容に応じて適切なツールを使ってください。",
 )
-
-# TODO 4で、同じ質問を5〜6回連続で送り、window_size=2 と window_size=20 とで
-# 「以前のやり取りを覚えているか」の応答の違いを比較する
 ```
 
-`window_size=2`では、2回より前のやり取りが会話から外れるため、「先ほど確認したチケットはどうなっていましたか」のような、少し前の文脈を参照する質問に正しく答えられなくなる様子が観察できるはずです。
+最後に、`TODO 4`（`if __name__ == "__main__":`ブロック）を、複数の質問を連続で送り、最初の質問の内容を最後に尋ねるコードに書き換えます。
+
+```python
+    questions = [
+        "TCK-1001のチケットは今どうなっていますか?",
+        "パスワードを忘れてしまいました。どうすればいいですか?",
+        "TCK-1002のチケットの状況を教えてください。",
+        "VPNに接続できない場合はどうすればいいですか?",
+        "最初にお尋ねしたチケットの番号と、その状況をもう一度教えてください。",
+    ]
+    for question in questions:
+        result = agent(question, structured_output_model=SupportAnswer)
+        print(f"Q: {question}")
+        print(f"A: {result.structured_output.answer}")
+        print("-" * 40)
+```
+
+`window_size=10`で実行すると、最後の質問の時点では最初のやり取りが履歴から外れているため、「最初にお尋ねしたチケット」が何かを答えられない（あるいは確認を求める）応答になるはずです。`window_size=40`に変えて実行し直すと、最初のやり取りが履歴に残るため、「TCK-1001」とその状況（対応中）を答えられることを確認してください。
 
 </details>
 
