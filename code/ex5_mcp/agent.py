@@ -213,7 +213,6 @@ def record_interaction_history(event: AfterToolCallEvent) -> None:
 
 
 # --- セッション管理・Hook・HITL対応のsupport_agent（演習4で追加済み） -------------
-# TODO 3: 手順3で、tools と system_prompt をMCP対応に書き換えます
 def create_support_agent(ticket_id: str) -> Agent:
     """チケットIDをセッションIDとする、永続化・Hook・HITL対応のsupport_agentを生成する。"""
     session_manager = SnapshotSessionManager(
@@ -226,6 +225,7 @@ def create_support_agent(ticket_id: str) -> Agent:
         ask="stdio",
     )
 
+    # TODO 3: 手順3で、以下の new_support_agent = Agent(...) の定義全体を、MCP対応に書き換えます
     new_support_agent = Agent(
         model=model,
         tools=[search_faq, get_ticket_status, get_password_reset_guide, request_account_unlock],

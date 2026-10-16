@@ -39,22 +39,27 @@ kb_client = MCPClient(
 
 ### 手順3: `support_agent`をMCP対応に書き換える
 
-`create_support_agent`関数内の`tools`と`system_prompt`を、`TODO 3`として次のように書き換えます。
+`create_support_agent`関数の中に、`TODO 3`のコメントがあります。そのすぐ下にある`new_support_agent = Agent(...)`の定義を、MCP対応のものに書き換えます。
+
+1. `TODO 3`のコメント行の下の`new_support_agent = Agent(`の行から、対応する閉じカッコ`)`の行まで（`system_prompt=(...)`を含む、`Agent(...)`の定義全体）を選択します。`new_support_agent.add_hook(...)`の行は選択しません。
+2. 選択した範囲を、次のコードで置き換えます。コードは関数の中に入るため、半角スペース4つでインデント済みです。選択は、`new_support_agent`の行頭の空白も含めて行ってください。
 
 ```python title="agent.py（TODO 3・書き換え）"
-new_support_agent = Agent(
-    model=model,
-    tools=[search_faq, get_ticket_status, get_password_reset_guide, request_account_unlock, kb_client],
-    session_manager=session_manager,
-    interventions=[hitl],
-    system_prompt=(
-        "あなたは社内ITヘルプデスクのユーザーサポート担当です。質問内容に応じて適切なツールを使ってください。"
-        "社内のFAQ(VPN・パスワード・Wi-Fi等)にはsearch_faqを使い、"
-        "経費精算・会議室予約の使い方・名刺発注等、FAQに含まれない社内手続きの質問にはsearch_kbを使ってください。"
-        "アカウントロックの解除を求められた場合は、request_account_unlockツールを使ってください。"
-    ),
-)
+    new_support_agent = Agent(
+        model=model,
+        tools=[search_faq, get_ticket_status, get_password_reset_guide, request_account_unlock, kb_client],
+        session_manager=session_manager,
+        interventions=[hitl],
+        system_prompt=(
+            "あなたは社内ITヘルプデスクのユーザーサポート担当です。質問内容に応じて適切なツールを使ってください。"
+            "社内のFAQ(VPN・パスワード・Wi-Fi等)にはsearch_faqを使い、"
+            "経費精算・会議室予約の使い方・名刺発注等、FAQに含まれない社内手続きの質問にはsearch_kbを使ってください。"
+            "アカウントロックの解除を求められた場合は、request_account_unlockツールを使ってください。"
+        ),
+    )
 ```
+
+変更点は次の2つです。`tools`のリストの末尾に`kb_client`を加えたことと、`system_prompt`に`search_kb`の使い分けを説明する文を加えたことです。それ以外（`session_manager`・`interventions`など）は変わりません。
 
 `kb_client`は、`MCPClient`のインスタンスそのものを`tools=[...]`の中に直接含めるだけで使えます。接続の確立・終了はSDK側が自動的に管理してくれるため、`with`文などで明示的に接続を開始する必要はありません。`system_prompt`には、ローカルFAQとナレッジベースをどう使い分けるかの判断基準を追記しています。
 
