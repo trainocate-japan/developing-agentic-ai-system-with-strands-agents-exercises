@@ -12,7 +12,8 @@ Agentic AI 開発実践 - Strands Agents 版
 """
 
 from strands_evals import eval_task, Case, Experiment, TracedHandler
-from strands_evals.evaluators import Evaluator, EvaluationOutput
+from strands_evals.evaluators import Evaluator
+from strands_evals.types import EvaluationOutput
 
 from agent import graph
 
@@ -31,11 +32,15 @@ SAMPLE_INQUIRIES = [
 
 
 @eval_task(TracedHandler())
-def run_routing_task(input: str) -> dict:
-    """1件の問い合わせをGraphに流し、実際に到達したノードをdictで返す。"""
-    result = graph(input)
+def run_routing_task(case: Case) -> dict:
+    """1件の問い合わせ(case.input)をGraphに流し、実際に到達した担当を返す。
+
+    Strands Evalsは、タスク関数の戻り値のうち"output"キーの値を、評価器に
+    actual_outputとして渡す。
+    """
+    result = graph(case.input)
     actual_route = "infra" if "infra" in result.results else "support"
-    return {"route": actual_route}
+    return {"output": {"route": actual_route}}
 
 
 class RoutingAccuracyEvaluator(Evaluator):
@@ -52,10 +57,9 @@ class RoutingAccuracyEvaluator(Evaluator):
         passed = actual_route == expected_route
         return [
             EvaluationOutput(
-                name="routing_accuracy",
-                passed=passed,
                 score=1.0 if passed else 0.0,
-                reasoning=f"expected={expected_route}, actual={actual_route}",
+                test_pass=passed,
+                reason=f"expected={expected_route}, actual={actual_route}",
             )
         ]
 
@@ -72,4 +76,8 @@ cases = [
 if __name__ == "__main__":
     experiment = Experiment(cases=cases, evaluators=[RoutingAccuracyEvaluator()])
     report = experiment.run_evaluations(run_routing_task)
-    report.run_display()
+
+    # Caseごとの結果(合格/不合格、期待する分岐先と実際の分岐先)を表示する
+    for case, passed, reason in zip(report.cases, report.test_passes, report.reasons):
+        print(f"{case['name']}: {'合格' if passed else '不合格'} ({reason}) {case['input']}")
+    print(f"合格 {sum(report.test_passes)}/{len(report.test_passes)} 件 (正答率 {report.overall_score:.0%})")
