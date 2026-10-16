@@ -256,7 +256,7 @@ if __name__ == "__main__":
 <summary>チャレンジ演習の模範解答例を表示</summary>
 
 ```python
-# TODO 2のインポート付近に追加する例
+# ファイル先頭のインポートに追加する例（既存の`from ... import ...`の行の下に追記）
 from strands.agent.conversation_manager import SlidingWindowConversationManager
 
 # TODO 3を書き換える例
