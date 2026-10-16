@@ -80,14 +80,14 @@ agent = Agent(
 
 ### 手順4: 動作確認する
 
-`TODO 5`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。
+`TODO 5`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。コードは`if __name__ == "__main__":`の中に入るため、半角スペース4つでインデント済みです。`TODO`コメントの行を、行頭の空白も含めて選択し、その上から貼り付けてください（インデントの途中や後ろにカーソルを置いて貼ると、1行目だけインデントがずれてエラーになります）。
 
 ```python title="agent.py（TODO 5）"
-result = agent("パスワードを忘れてしまいました。どうすればいいですか?")
-print(result)
+    result = agent("パスワードを忘れてしまいました。どうすればいいですか?")
+    print(result)
 
-result2 = agent("プリンターの色設定がおかしいです。")
-print(result2)
+    result2 = agent("プリンターの色設定がおかしいです。")
+    print(result2)
 ```
 
 ターミナルで実行します。
@@ -114,16 +114,16 @@ class SupportAnswer(BaseModel):
     needs_escalation: bool = Field(description="情報システム部へのエスカレーションが必要か")
 ```
 
-最後に、`TODO 5`に書いたコードを、次のように書き換えます。
+最後に、`TODO 5`に書いたコードを、次のように書き換えます（先ほど貼り付けたコードを、行頭の空白も含めてまとめて選択し、その上から貼り付けます。こちらも半角スペース4つでインデント済みです）。
 
 ```python title="agent.py（TODO 5・書き換え）"
-result = agent(
-    "パスワードを忘れてしまいました。どうすればいいですか?",
-    structured_output_model=SupportAnswer,
-)
-answer = result.structured_output
-print(answer.answer)
-print(answer.needs_escalation)
+    result = agent(
+        "パスワードを忘れてしまいました。どうすればいいですか?",
+        structured_output_model=SupportAnswer,
+    )
+    answer = result.structured_output
+    print(answer.answer)
+    print(answer.needs_escalation)
 ```
 
 > **`max_tokens`を忘れずに。** 指定しないと、モデルによっては長大な応答を生成しようとして`MaxTokensReachedException`になることがあります。ベースコードの`model`には、あらかじめ`max_tokens=1024`を設定済みです。
@@ -240,15 +240,15 @@ class SupportAnswer(BaseModel):
 `category`は、フィールドを追加しただけでは画面に表示されません。TODO 5（手順5で書き換えたコード）の末尾に、`print`を1行追加します（下記のうち、追加するのは最後の`print(answer.category)`の1行だけです）。
 
 ```python
-# categoryをprintする例（TODO 5の末尾に追記）
-result = agent(
-    "パスワードを忘れてしまいました。どうすればいいですか?",
-    structured_output_model=SupportAnswer,
-)
-answer = result.structured_output
-print(answer.answer)
-print(answer.needs_escalation)
-print(answer.category)  # 追加: categoryを表示する
+    # categoryをprintする例（TODO 5の末尾に追記）
+    result = agent(
+        "パスワードを忘れてしまいました。どうすればいいですか?",
+        structured_output_model=SupportAnswer,
+    )
+    answer = result.structured_output
+    print(answer.answer)
+    print(answer.needs_escalation)
+    print(answer.category)  # 追加: categoryを表示する
 ```
 
 </details>

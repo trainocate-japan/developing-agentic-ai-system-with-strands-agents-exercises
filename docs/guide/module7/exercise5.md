@@ -60,16 +60,16 @@ new_support_agent = Agent(
 
 ### 手順4: 動作確認する
 
-`TODO 4`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。
+`TODO 4`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。コードは`if __name__ == "__main__":`の中に入るため、半角スペース4つでインデント済みです。`TODO`コメントの行を、行頭の空白も含めて選択し、その上から貼り付けてください（インデントの途中や後ろにカーソルを置いて貼ると、1行目だけインデントがずれてエラーになります）。
 
 ```python title="agent.py（TODO 4）"
-support_agent_1 = create_support_agent("TCK-2001")
+    support_agent_1 = create_support_agent("TCK-2001")
 
-result1 = support_agent_1("経費精算のやり方を教えてください。")
-print(result1)
+    result1 = support_agent_1("経費精算のやり方を教えてください。")
+    print(result1)
 
-result2 = support_agent_1("パスワードを忘れてしまいました。どうすればいいですか?")
-print(result2)
+    result2 = support_agent_1("パスワードを忘れてしまいました。どうすればいいですか?")
+    print(result2)
 ```
 
 ターミナルで実行します。
@@ -339,12 +339,12 @@ if __name__ == "__main__":
 <summary>チャレンジ演習の模範解答例を表示</summary>
 
 ```python
-# TODO 4に追記する例
-support_agent_2 = create_support_agent("TCK-2002")
-result3 = support_agent_2(
-    "会議室予約システムの使い方について、記事を検索して、見つかった記事の全文を見せてください。"
-)
-print(result3)
+    # TODO 4に追記する例
+    support_agent_2 = create_support_agent("TCK-2002")
+    result3 = support_agent_2(
+        "会議室予約システムの使い方について、記事を検索して、見つかった記事の全文を見せてください。"
+    )
+    print(result3)
 ```
 
 `search_kb`で記事ID（例: `KB-002`）を見つけたうえで、続けて`get_article`を呼び出して全文を取得する、という2段階のツール呼び出しをエージェントが自律的に行う様子を確認できます。

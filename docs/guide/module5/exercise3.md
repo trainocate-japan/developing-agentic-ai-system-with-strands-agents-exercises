@@ -126,11 +126,11 @@ graph = builder.build()
 
 ### 手順7: 動作確認する
 
-`TODO 8`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。
+`TODO 8`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。コードは`if __name__ == "__main__":`の中に入るため、半角スペース4つでインデント済みです。`TODO`コメントの行を、行頭の空白も含めて選択し、その上から貼り付けてください（インデントの途中や後ろにカーソルを置いて貼ると、1行目だけインデントがずれてエラーになります）。
 
 ```python title="agent.py（TODO 8）"
-result = graph("VPNゲートウェイの調子が悪いようです。障害でしょうか?")
-print(result)
+    result = graph("VPNゲートウェイの調子が悪いようです。障害でしょうか?")
+    print(result)
 ```
 
 ターミナルで実行します。
@@ -143,27 +143,27 @@ python agent.py
 
 ### 手順8: サンプル問い合わせ集で分岐精度を確認する
 
-最後に、複数の問い合わせ文を使って、分岐が期待どおりに行われているかをまとめて確認します。`TODO 8`の内容を、次のように書き換えます。
+最後に、複数の問い合わせ文を使って、分岐が期待どおりに行われているかをまとめて確認します。`TODO 8`の内容を、次のように書き換えます（先ほど貼り付けたコードを、行頭の空白も含めてまとめて選択し、その上から貼り付けます。こちらも半角スペース4つでインデント済みです）。
 
 ```python title="agent.py（TODO 8・書き換え）"
-SAMPLE_INQUIRIES = [
-    {"text": "パスワードを忘れてログインできません。", "expected_route": "support"},
-    {"text": "VPNゲートウェイが遅くて業務になりません。障害ではないでしょうか。", "expected_route": "infra"},
-    {"text": "TCK-1002のチケットの対応状況を教えてください。", "expected_route": "support"},
-    {"text": "社内ポータルにアクセスできません。障害が起きていますか?", "expected_route": "infra"},
-    {"text": "会議室予約システムにログインできません。パスワードを忘れました。", "expected_route": "support"},
-    {"text": "メールサーバーが落ちているようです。確認してもらえますか?", "expected_route": "infra"},
-    {"text": "プリンターのドライバーがインストールできません。", "expected_route": "support"},
-    {"text": "Wi-Fiの調子が悪いのですが、社内全体の障害でしょうか?", "expected_route": "infra"},
-    {"text": "PCの持ち出し申請の手続きを教えてください。", "expected_route": "support"},
-    {"text": "会議室予約システムが全社的に落ちていないか確認したいです。", "expected_route": "infra"},
-]
+    SAMPLE_INQUIRIES = [
+        {"text": "パスワードを忘れてログインできません。", "expected_route": "support"},
+        {"text": "VPNゲートウェイが遅くて業務になりません。障害ではないでしょうか。", "expected_route": "infra"},
+        {"text": "TCK-1002のチケットの対応状況を教えてください。", "expected_route": "support"},
+        {"text": "社内ポータルにアクセスできません。障害が起きていますか?", "expected_route": "infra"},
+        {"text": "会議室予約システムにログインできません。パスワードを忘れました。", "expected_route": "support"},
+        {"text": "メールサーバーが落ちているようです。確認してもらえますか?", "expected_route": "infra"},
+        {"text": "プリンターのドライバーがインストールできません。", "expected_route": "support"},
+        {"text": "Wi-Fiの調子が悪いのですが、社内全体の障害でしょうか?", "expected_route": "infra"},
+        {"text": "PCの持ち出し申請の手続きを教えてください。", "expected_route": "support"},
+        {"text": "会議室予約システムが全社的に落ちていないか確認したいです。", "expected_route": "infra"},
+    ]
 
-for case in SAMPLE_INQUIRIES:
-    result = graph(case["text"])
-    actual_route = "infra" if "infra" in result.results else "support"
-    judge = "OK" if actual_route == case["expected_route"] else "NG"
-    print(f"[{judge}] expected={case['expected_route']} actual={actual_route}: {case['text']}")
+    for case in SAMPLE_INQUIRIES:
+        result = graph(case["text"])
+        actual_route = "infra" if "infra" in result.results else "support"
+        judge = "OK" if actual_route == case["expected_route"] else "NG"
+        print(f"[{judge}] expected={case['expected_route']} actual={actual_route}: {case['text']}")
 ```
 
 `result.results`は、実際に実行されたノードのIDをキーに持つ辞書です。`"infra"`キーが含まれていれば`infra`ノードまで到達したことがわかるので、これを実際の分岐先として扱い、期待する分岐先（`expected_route`）と突き合わせています。

@@ -80,26 +80,26 @@ agent = Agent(
 
 ### 手順4: 動作確認する
 
-`TODO 4`（`if __name__ == "__main__":`ブロック）を、3つのツールをそれぞれ試せる内容に書き換えます。
+`TODO 4`（`if __name__ == "__main__":`ブロック）を、3つのツールをそれぞれ試せる内容に書き換えます。`TODO 4`のコメント行から、その下に最初から書かれているコード（`print(answer.needs_escalation)`の行まで）を、行頭の空白も含めてまとめて選択し、その上から以下のコードを貼り付けてください。コードは`if __name__ == "__main__":`の中に入るため、半角スペース4つでインデント済みです（インデントの途中や後ろにカーソルを置いて貼ると、1行目だけインデントがずれてエラーになります）。
 
 ```python title="agent.py（TODO 4・書き換え）"
-result1 = agent(
-    "TCK-1001のチケットは今どうなっていますか?",
-    structured_output_model=SupportAnswer,
-)
-print(result1.structured_output.answer)
+    result1 = agent(
+        "TCK-1001のチケットは今どうなっていますか?",
+        structured_output_model=SupportAnswer,
+    )
+    print(result1.structured_output.answer)
 
-result2 = agent(
-    "パスワードを忘れてしまいました。どうすればいいですか?",
-    structured_output_model=SupportAnswer,
-)
-print(result2.structured_output.answer)
+    result2 = agent(
+        "パスワードを忘れてしまいました。どうすればいいですか?",
+        structured_output_model=SupportAnswer,
+    )
+    print(result2.structured_output.answer)
 
-result3 = agent(
-    "TCK-9999のチケットの状況を教えてください。",
-    structured_output_model=SupportAnswer,
-)
-print(result3.structured_output.answer)
+    result3 = agent(
+        "TCK-9999のチケットの状況を教えてください。",
+        structured_output_model=SupportAnswer,
+    )
+    print(result3.structured_output.answer)
 ```
 
 ターミナルで実行します。

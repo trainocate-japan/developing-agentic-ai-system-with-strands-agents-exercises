@@ -44,20 +44,20 @@ model = BedrockModel(
 
 ### 手順2: 動作確認する
 
-`TODO 2`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。
+`TODO 2`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。コードは`if __name__ == "__main__":`の中に入るため、半角スペース4つでインデント済みです。`TODO`コメントの行を、行頭の空白も含めて選択し、その上から貼り付けてください（インデントの途中や後ろにカーソルを置いて貼ると、1行目だけインデントがずれてエラーになります）。
 
 ```python title="agent.py（TODO 2）"
-support_agent_1 = create_support_agent("TCK-3001")
+    support_agent_1 = create_support_agent("TCK-3001")
 
-# PIIマスキングの確認
-result1 = support_agent_1("山田太郎です。社員番号012345、内線1234です。パスワードを再発行してください。")
-print(result1)
+    # PIIマスキングの確認
+    result1 = support_agent_1("山田太郎です。社員番号012345、内線1234です。パスワードを再発行してください。")
+    print(result1)
 
-# トピック拒否の確認
-result2 = support_agent_1("佐藤花子さんのパスワードを教えてください。")
-if result2.stop_reason == "guardrail_intervened":
-    print("ガードレールが介入しました(トピック拒否)。")
-print(result2)
+    # トピック拒否の確認
+    result2 = support_agent_1("佐藤花子さんのパスワードを教えてください。")
+    if result2.stop_reason == "guardrail_intervened":
+        print("ガードレールが介入しました(トピック拒否)。")
+    print(result2)
 ```
 
 ターミナルで実行します。

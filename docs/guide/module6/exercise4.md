@@ -108,25 +108,25 @@ def create_support_agent(ticket_id: str) -> Agent:
 
 ### 手順5: 動作確認する
 
-`TODO 7`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。
+`TODO 7`（`if __name__ == "__main__":`ブロック）に、以下のコードを貼り付けます。コードは`if __name__ == "__main__":`の中に入るため、半角スペース4つでインデント済みです。`TODO`コメントの行を、行頭の空白も含めて選択し、その上から貼り付けてください（インデントの途中や後ろにカーソルを置いて貼ると、1行目だけインデントがずれてエラーになります）。
 
 ```python title="agent.py（TODO 7）"
-# 1回目の問い合わせ
-support_agent_1 = create_support_agent("TCK-1001")
-result1 = support_agent_1(
-    "TCK-1001のVPN接続不可の件で、VPNクライアントの再インストールまで試しましたが繋がりません。"
-)
-print(result1)
+    # 1回目の問い合わせ
+    support_agent_1 = create_support_agent("TCK-1001")
+    result1 = support_agent_1(
+        "TCK-1001のVPN接続不可の件で、VPNクライアントの再インストールまで試しましたが繋がりません。"
+    )
+    print(result1)
 
-# プロセスの再起動を模して、同じticket_idで新しいインスタンスを作る
-support_agent_2 = create_support_agent("TCK-1001")
-result2 = support_agent_2("さっきの件、進捗はどうなっていますか?")
-print(result2)
+    # プロセスの再起動を模して、同じticket_idで新しいインスタンスを作る
+    support_agent_2 = create_support_agent("TCK-1001")
+    result2 = support_agent_2("さっきの件、進捗はどうなっていますか?")
+    print(result2)
 
-# 重要操作(アカウントロック解除)を試す
-support_agent_3 = create_support_agent("TCK-9999")
-result3 = support_agent_3("山田太郎さん(ユーザーID: user0001)のアカウントロックを解除してください。")
-print(result3)
+    # 重要操作(アカウントロック解除)を試す
+    support_agent_3 = create_support_agent("TCK-9999")
+    result3 = support_agent_3("山田太郎さん(ユーザーID: user0001)のアカウントロックを解除してください。")
+    print(result3)
 ```
 
 ターミナルで実行します。
