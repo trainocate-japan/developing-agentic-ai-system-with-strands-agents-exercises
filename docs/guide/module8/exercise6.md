@@ -161,13 +161,24 @@ python agent.py
 最後に、演習3で組み立てたGraphのルーティング精度を、用意された評価スクリプトで確認します。`run_evals.py`は、`agent.py`の`graph`をそのまま読み込み、モジュール5で使ったサンプル問い合わせ集(10件)に対する分岐結果を、Strands Evals SDKで評価します。
 
 ```bash
-pip install strands-evals
+pip install strands-agents-evals
 python run_evals.py
 ```
 
-実行すると、Caseごとに合格(`routing-01`〜`routing-10`)・不合格が表示されます。不合格のCaseがあれば、`expected`(期待する分岐先)と`actual`(実際の分岐先)が一致していない問い合わせ文です。
+> **注意**: パッケージ名は`strands-agents-evals`です。`strands-evals`という名前のパッケージはPyPI上に存在しますが、Strands Agentsとは無関係の別のパッケージなので、インストールしないでください。誤ってインストールしてしまった場合は、`pip uninstall strands-evals`で削除してから、`pip install strands-agents-evals`を実行してください。
 
-> **補足**: `run_evals.py`は、Graph自体の分岐結果を評価するためのカスタムEvaluator(`RoutingAccuracyEvaluator`)を自作しています。これは、Strands Evals SDKの組み込み評価器(`ToolCalled`等)が、主に単一の`Agent`を返す`@eval_task`を想定しており、本演習のようなマルチエージェント(Graph)のルーティング結果を直接評価する組み込み評価器が用意されていないためです。`strands-evals`のバージョンによってAPIの詳細(`EvaluationOutput`の引数名等)が変わる可能性があるので、エラーが出た場合は、インストールされているバージョンのドキュメントを確認してください。
+実行すると、Caseごとに合格(`routing-01`〜`routing-10`)・不合格が1行ずつ表示され、最後に合格件数が表示されます。
+
+```text
+routing-01: 合格 (expected=support, actual=support) パスワードを忘れてログインできません。
+routing-02: 不合格 (expected=infra, actual=support) VPNゲートウェイが遅くて業務になりません。障害ではないでしょうか。
+...
+合格 9/10 件 (正答率 90%)
+```
+
+不合格のCaseがあれば、`expected`(期待する分岐先)と`actual`(実際の分岐先)が一致していない問い合わせ文です。(上の表示は書き方の例です。実際の結果は、モデルの判断によって変わります。)
+
+> **補足**: `run_evals.py`は、Graph自体の分岐結果を評価するためのカスタムEvaluator(`RoutingAccuracyEvaluator`)を自作しています。これは、Strands Evals SDKの組み込み評価器(`ToolCalled`等)が、主に単一の`Agent`を返す`@eval_task`を想定しており、本演習のようなマルチエージェント(Graph)のルーティング結果を直接評価する組み込み評価器が用意されていないためです。`strands-agents-evals`のバージョンによってAPIの詳細(`EvaluationOutput`の引数名、タスク関数の戻り値の形式等)が変わる可能性があるので、エラーが出た場合は、インストールされているバージョンのドキュメントを確認してください。
 
 <details>
 <summary>模範解答（agent.py 全体）を表示</summary>
