@@ -10,3 +10,5 @@
 | [演習4](/guide/module6/exercise4.md) | 永続化・Hooks・HITL |
 | [演習5](/guide/module7/exercise5.md) | MCPサーバーへの接続 |
 | [演習6](/guide/module8/exercise6.md) | Guardrails設定と評価結果の確認 |
+
+各演習のベースコードには、使用するモデルのIDが入っていません。演習を始める前に、[共通準備: モデルIDの書き換え](/guide/model-id.md)を確認してください。

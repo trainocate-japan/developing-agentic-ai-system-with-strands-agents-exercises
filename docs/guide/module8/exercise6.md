@@ -17,6 +17,10 @@
 
 ## 手順
 
+### 手順0: モデルIDを書き換える
+
+`agent.py`の`model = BedrockModel(...)`にある`model_id="<使用するモデルのID>"`を、[共通準備: モデルIDの書き換え](/guide/model-id.md)に記載のモデルIDに書き換えて保存してください。他の引数（`region_name`、`max_tokens`）は変更しません。
+
 ### 手順1: Amazon Bedrock Guardrailsを作成し、`agent.py`に適用する
 
 まず、Amazon Bedrock Guardrailsコンソールでガードレールを作成します。
@@ -39,6 +43,8 @@ model = BedrockModel(
     guardrail_version="<作成したガードレールのバージョン>",
 )
 ```
+
+> **モデルIDも忘れずに。** 上のコードを貼り付けると`model_id`が`<使用するモデルのID>`に戻ります。手順0と同じく、[共通準備: モデルIDの書き換え](/guide/model-id.md)に記載のモデルIDに書き換えてください。
 
 `model`はこのファイル全体で共通して使われているため、この1箇所を書き換えるだけで、`support_agent`・`infra_agent`・`receptionist`、および`create_support_agent`が生成するエージェントすべてにガードレールが適用されます。
 
