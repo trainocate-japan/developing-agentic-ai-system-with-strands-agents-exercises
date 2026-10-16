@@ -17,9 +17,10 @@ from strands.models import BedrockModel
 
 # --- モデル -----------------------------------------------------------------
 # 本コースの演習では、コスト効率の観点からAmazon Nova 2 Liteを使用します。
-# 実際に指定するモデルIDは、別途配布する環境構築ガイドを参照してください。
+# モデルIDには、日本向けのクロスリージョン推論プロファイルを指定しています。
+# 別のモデルを試したい場合は、model_idを書き換えてください。
 model = BedrockModel(
-    model_id="<使用するモデルのID>",
+    model_id="jp.amazon.nova-2-lite-v1:0",
     region_name="ap-northeast-1",
     max_tokens=1024,
 )

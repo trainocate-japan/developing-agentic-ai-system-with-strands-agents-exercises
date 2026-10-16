@@ -14,10 +14,6 @@
 
 ## 手順
 
-### 手順0: モデルIDを書き換える
-
-`agent.py`の`model = BedrockModel(...)`にある`model_id="<使用するモデルのID>"`を、[共通準備: モデルIDの書き換え](/guide/model-id.md)に記載のモデルIDに書き換えて保存してください。他の引数（`region_name`、`max_tokens`）は変更しません。
-
 ### 手順1: `MCPClient`に必要なクラスをインポートする
 
 `agent.py`の`TODO 1`に、以下を貼り付けます。
@@ -101,7 +97,7 @@ from strands.tools.mcp import MCPClient
 
 
 model = BedrockModel(
-    model_id="<使用するモデルのID>",
+    model_id="jp.amazon.nova-2-lite-v1:0",
     region_name="ap-northeast-1",
     max_tokens=1024,
 )

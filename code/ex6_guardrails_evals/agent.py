@@ -25,7 +25,7 @@ from strands.tools.mcp import MCPClient
 # --- モデル -------------------------------------------------------------------
 # TODO 1: 手順1で、guardrail_id・guardrail_versionを追加します
 model = BedrockModel(
-    model_id="<使用するモデルのID>",
+    model_id="jp.amazon.nova-2-lite-v1:0",
     region_name="ap-northeast-1",
     max_tokens=1024,
 )

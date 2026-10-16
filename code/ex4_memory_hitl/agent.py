@@ -21,7 +21,7 @@ from strands.multiagent import GraphBuilder
 
 # --- モデル -------------------------------------------------------------------
 model = BedrockModel(
-    model_id="<使用するモデルのID>",
+    model_id="jp.amazon.nova-2-lite-v1:0",
     region_name="ap-northeast-1",
     max_tokens=1024,
 )

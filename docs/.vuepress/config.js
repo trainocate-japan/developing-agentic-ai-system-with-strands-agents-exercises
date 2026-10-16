@@ -29,7 +29,6 @@ export default defineUserConfig({
     ],
     sidebar: {
       '/guide/': [
-        '/guide/model-id.md',
         '/guide/module3/exercise1.md',
         '/guide/module4/exercise2.md',
         '/guide/module5/exercise3.md',
