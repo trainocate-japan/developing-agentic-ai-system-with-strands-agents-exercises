@@ -12,6 +12,14 @@
 
 `kb_mcp_server.py`を`agent.py`と同じディレクトリに置いてください。`agent.py`の`TODO 1`、`TODO 2`、…と番号が振られた場所に、以下の手順のコードを追加・書き換えしながら完成させてください（番号はファイル上の位置ではなく、追加する順番を表しています）。
 
+## 事前準備
+
+`kb_mcp_server.py`は、MCPサーバーを作るためのライブラリ`fastmcp`を使います。インストールされていない環境では、サーバーが起動できず、`agent.py`の実行時に`Failed to start MCP client: the client initialization failed`というエラーになります。次のコマンドでインストールしてください（インストール済みの環境では不要です）。
+
+```bash
+pip install fastmcp
+```
+
 ## 手順
 
 ### 手順1: `MCPClient`に必要なクラスをインポートする

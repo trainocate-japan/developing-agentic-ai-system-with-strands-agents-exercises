@@ -15,6 +15,8 @@
 
 `agent.py`の`TODO 1`、`TODO 2`の番号が振られた場所に、以下の手順のコードを追加・書き換えしながら完成させてください（番号はファイル上の位置ではなく、追加する順番を表しています）。
 
+> **事前準備**: `kb_mcp_server.py`の実行には`fastmcp`が必要です。演習5で`pip install fastmcp`を実行済みであれば、追加の作業は不要です。
+
 ## 手順
 
 ### 手順1: Amazon Bedrock Guardrailsを作成し、`agent.py`に適用する
